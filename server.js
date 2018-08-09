@@ -35,7 +35,7 @@ app.use(session({
 
 
 /*** Receives the user login --- */
-app.post('/login', urlencodedParser, (req, resp) => {
+app.post('/report', urlencodedParser, (req, resp) => {
 	let username = req.body.username;
 	let password = req.body.password; 
 	let authentication =  base64.encode(`${username}:${password}`);
@@ -52,28 +52,27 @@ app.post('/login', urlencodedParser, (req, resp) => {
 	}, (err, res, body) => {
 	  // if result it's ok		
 	  if (res.statusCode == 200) {
-	  	console.log(body.results);	
 	  	resp.render('index.hbs', {
 	  		results: body.results,
+	  		//fullfill the data in case the users wants to create another report and change only one parameter
 	  		data: {
 	        	username,
 	        	startDate,
 	        	endDate
 	        }
 	  	});
-	  } else if (res.statusCode == 401){ //invalid credentials
+	  } else if (res.statusCode == 401){ //401 = invalid credentials
 		  	resp.render('index.hbs', {
-	        error: "Invalid credentials! Please, confirm your user and password",
-	        // provides the data so the user it does not have to input everything again
-	        data: {
-	        	username,
-	        	startDate,
-	        	endDate
-	        }
-      	});
+	        	error: "Invalid credentials! Please, confirm your user and password",
+	        	// provides the data so the user it does not have to input everything again
+	        	data: {
+	        		username,
+	        		startDate,
+	        		endDate
+	        	}
+      		});//end of the render
 	  }
-	  
-	});
+	});//end or get request
 	
 	
 });
