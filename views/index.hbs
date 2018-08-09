@@ -9,34 +9,92 @@
 	<!-- Optional theme -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 	<link rel="stylesheet" href="assets/style/style.css">
+	<!-- jQuery UI -->
+	<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
 </head>
 <body>
 	<div class="container">
-		<section class="row">
-			<article class="row-md-8 row-xs-offset-4 row-xs-12">
-				<form method="POST" id="myForm">
-				<fieldset class="col-md-4 col-md-offset-4 col-xs-12">
+		<section class="row" id="reportConfig">
+			<article class="col-md-8 col-xs-12">
+				<form method="POST" action="/login" novalidate>
+				<fieldset>
 					<legend>Registro de Horas JIRA e-Core</legend>
-					<div class="form-group">
-						<label for="username">Username:</label>
-						<input type="text" class="form-control" name="os_username" id="username" placeholder="Username">
-					</div>
-					<div class="form-group">
-						<label for="password">Password:</label>
-						<input type="password" class="form-control" name="os_password" id="password" placeholder="Password">
-						<input type="hidden" name="login" value="Log In">
-					</div>
-					<div class="form-group">
-						<button class="btn btn-primary btn-md submit" type="button">Submit</button>					
-					</div>
+					<!-- In case there was an error to communicate to JIRA and get the hours show an error message -->
+					{{# if error}}
+					    <div class="row">
+					      <div class="col-xs-12">
+					        <div class="alert alert-warning" role="alert">
+					          <strong>{{error}}</strong>
+					        </div>
+					      </div>
+					    </div>
+					 {{/if}}
+					 <!-- User input for login -->
+					 <div id="loginData" class="col-md-6 col-xs-12">
+						<div class="form-group">
+							<label for="username">Username:</label>
+							<input type="text" class="form-control" name="username" id="username" placeholder="Username" value="{{data.username}}">
+						</div>
+						<div class="form-group">
+							<label for="password">Password:</label>
+							<input type="password" class="form-control" name="password" id="password" placeholder="Password">
+							<input type="hidden" name="login" value="Log In">
+						</div>
+					</div> <!-- end of login data -->
+					<!-- User provides information related to the date of the report -->
+					<div id="reportDate" class="col-md-6 col-xs-12">
+						<div class="form-group">
+							<label for="username">Start Date:</label>
+							<input type="text" class="form-control datepicker" name="startDate" id="startDate" placeholder="dd/mm/yyyy" value="{{data.startDate}}">
+						</div>
+						<div class="form-group">
+							<label for="username">End Date:</label>
+							<input type="text" class="form-control datepicker" name="endDate" id="endDate" placeholder="dd/mm/yyyy" value="{{data.endDate}}">
+						</div>
+					</div> <!-- end report date -->
+					<div class="row col-xs-12">
+						<div class="form-group">
+							<button class="btn btn-primary btn-md submit" type="submit">Submit</button>					
+						</div>
+					</div> <!-- submit button end -->
 				</fieldset>
 			</form>
 			</article>
+		</section><!-- report conifg-->
+		{{# if results}}
+		<section id="shift-table">
+			<table class="table table-hover">
+				<thead>
+					<th>Name:</th>
+					<th>Date:</th>
+					<th>Entry:</th>
+					<th>Exit:</th>
+					<th>Entry2:</th>
+					<th>Exit2:</th>
+					<th>Total:</th>
+				</thead>
+				<tbody>
+					{{#each results}}
+					<tr>
+						<td>{{funcionario.nome}}</td>
+						<td>{{data}}</td>
+						<td>{{entrada1}}</td>
+						<td>{{saida1}}</td>
+						<td>{{entrada2}}</td>
+						<td>{{saida2}}</td>
+						<td>{{totalWorkedHours}}</td>
+					</tr>
+					{{/each}}
+				</tbody>
+			</table>
 		</section>
+		{{/if}}
 	</div>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 	<!-- Latest compiled and minified JavaScript -->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>	
 	<script src="assets/scripts/script.js"></script>
+	<!-- jQuery UI Script -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 </body>
 </html>
