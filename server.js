@@ -34,7 +34,7 @@ app.use(session({
 }));
 
 
-/*** Receives the user login --- */
+/*** Process the report--- */
 app.post('/report', urlencodedParser, (req, resp) => {
 	let username = req.body.username;
 	let password = req.body.password; 
@@ -63,7 +63,7 @@ app.post('/report', urlencodedParser, (req, resp) => {
 	  	});
 	  } else if (res.statusCode == 401){ //401 = invalid credentials
 		  	resp.render('index.hbs', {
-	        	error: "Invalid credentials! Please, confirm your user and password",
+	        	error: "Invalid credentials! Please, confirm your user and password...",
 	        	// provides the data so the user it does not have to input everything again
 	        	data: {
 	        		username,
@@ -74,11 +74,15 @@ app.post('/report', urlencodedParser, (req, resp) => {
 	  }
 	});//end or get request
 	
-	
 });
 
 //renders the index page.
 app.get('/', (req, res) =>{
+	res.render('index.hbs');
+});
+
+//redirects the user to home in case he tries to access the /report
+app.get('/report', (req, res) =>{
 	res.render('index.hbs');
 });
 
