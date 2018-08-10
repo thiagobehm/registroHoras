@@ -23,3 +23,13 @@ button[type="submit"] {
     text-shadow: 2px 3px 1px #3b4a56;
     border-radius: 0 25px 0 0;
 }
+
+#shift-table {
+	padding: 0 120px;
+}
+
+@media (min-width: 768px){
+	.container {
+		width: 98%;
+	}
+}
