@@ -37,9 +37,9 @@ app.use(session({
 hbs.registerHelper('calculateBalance', (context, options) => {
 	let bankHours = 0;
 	let start = moment.utc(context, "HH:mm");
-	let daylyHours = moment.utc("08:00", "HH:mm");
+	let dailyHours = moment.utc("08:00", "HH:mm");
 	
-	return start.diff(daylyHours, 'minutes');
+	return start.diff(dailyHours, 'minutes');
 
 });
 
@@ -47,11 +47,17 @@ hbs.registerHelper('calculateBalance', (context, options) => {
 hbs.registerHelper('calculateTotal', (context, options) => {
 	let totalHours = 0;
 	let start; 
-	let daylyHours = moment.utc("08:00", "HH:mm");
+	let dailyHours = moment.utc("08:00", "HH:mm");
+	let dayOff = moment.utc("00:00", "HH:mm");
 
 	context.forEach((item) =>{
 		start = moment.utc(item.totalWorkedHours, "HH:mm"); //get the total of hours per day
-		totalHours += start.diff(daylyHours, 'minutes'); // checks if the balance is positive or negative by decreasing 8h per day
+		
+		//avoid day off, vacation, medical leave
+		if (dayOff.diff(start, 'minutes') !== 0) {
+			console.log(dayOff.diff(start, 'minutes') === 0)
+			totalHours += start.diff(dailyHours, 'minutes'); // checks if the balance is positive or negative by decreasing 8h per day
+		}		
 	})
 
 	//in case there is more than 60 mintutes converts to hours
