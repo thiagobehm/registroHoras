@@ -72,6 +72,7 @@
 					<th>Entry2:</th>
 					<th>Exit2:</th>
 					<th>Total:</th>
+					<th class="balance">Balance: {{calculateTotal results}}</th>
 				</thead>
 				<tbody>
 					{{#each results}}
@@ -83,8 +84,9 @@
 						<td>{{entrada2}}</td>
 						<td>{{saida2}}</td>
 						<td>{{totalWorkedHours}}</td>
+						<td>{{calculateBalance totalWorkedHours}}</td>
 					</tr>
-					{{/each}}
+					{{/each}}					
 				</tbody>
 			</table>
 		</section>

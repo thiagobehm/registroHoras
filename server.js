@@ -5,7 +5,7 @@ const path = require('path');
 const session = require('express-session');
 const request = require('request');
 const base64 = require('base-64');
-
+const moment = require('moment');
 
 
 //configures a variable to heroku environment
@@ -33,6 +33,36 @@ app.use(session({
   resave: false
 }));
 
+// function to calculate the balance per day
+hbs.registerHelper('calculateBalance', (context, options) => {
+	let bankHours = 0;
+	let start = moment.utc(context, "HH:mm");
+	let daylyHours = moment.utc("08:00", "HH:mm");
+	
+	return start.diff(daylyHours, 'minutes');
+
+});
+
+// Method to calculate the total time of the month
+hbs.registerHelper('calculateTotal', (context, options) => {
+	let totalHours = 0;
+	let start; 
+	let daylyHours = moment.utc("08:00", "HH:mm");
+
+	context.forEach((item) =>{
+		start = moment.utc(item.totalWorkedHours, "HH:mm"); //get the total of hours per day
+		totalHours += start.diff(daylyHours, 'minutes'); // checks if the balance is positive or negative by decreasing 8h per day
+	})
+
+	//in case there is more than 60 mintutes converts to hours
+	if (totalHours >= 60 || totalHours <= -60) {
+		//format the number to two float point
+		totalHours = Number.parseFloat(totalHours / 60).toFixed(2) + ' h';
+	} else {
+		totalHours = totalHours + 'm'; 
+	}
+	return totalHours;
+});
 
 /*** Process the report--- */
 app.post('/report', urlencodedParser, (req, resp) => {

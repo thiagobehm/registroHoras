@@ -16,3 +16,10 @@ button[type="submit"] {
 .alert {
 	text-align: center;
 }
+
+.balance {
+	background: #25557f;
+    color: #fff;
+    text-shadow: 2px 3px 1px #3b4a56;
+    border-radius: 0 25px 0 0;
+}
