@@ -39,7 +39,17 @@ hbs.registerHelper('calculateBalance', (context, options) => {
 	let start = moment.utc(context, "HH:mm");
 	let dailyHours = moment.utc("08:00", "HH:mm");
 	
-	return start.diff(dailyHours, 'minutes');
+	bankHours = start.diff(dailyHours, 'minutes');
+
+	//in case there is more than 60 mintutes converts to hours
+	if (bankHours >= 60 || bankHours <= -60) {
+		//format the number to two float point
+		bankHours = Number.parseFloat(bankHours / 60).toFixed(2) + ' h';
+	} else {
+		bankHours = bankHours + 'm'; 
+	}
+	
+	return bankHours;
 
 });
 
