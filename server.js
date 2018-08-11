@@ -48,7 +48,7 @@ hbs.registerHelper('calculateBalance', (context, options) => {
 	} else {
 		bankHours = bankHours + 'm'; 
 	}
-	
+
 	return bankHours;
 
 });
@@ -64,8 +64,7 @@ hbs.registerHelper('calculateTotal', (context, options) => {
 		start = moment.utc(item.totalWorkedHours, "HH:mm"); //get the total of hours per day
 		
 		//avoid day off, vacation, medical leave
-		if (dayOff.diff(start, 'minutes') !== 0) {
-			console.log(dayOff.diff(start, 'minutes') === 0)
+		if (dayOff.diff(start, 'minutes') !== 0) {		
 			totalHours += start.diff(dailyHours, 'minutes'); // checks if the balance is positive or negative by decreasing 8h per day
 		}		
 	})
