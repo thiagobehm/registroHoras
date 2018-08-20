@@ -2,7 +2,6 @@ const express = require('express');
 const hbs = require('hbs');
 const bodyParser = require('body-parser');
 const path = require('path');
-const session = require('express-session');
 const request = require('request');
 const base64 = require('base-64');
 const moment = require('moment');
@@ -25,13 +24,6 @@ app.set('view engine', 'hbs');
 
 //defines the 'root' directory for public files
 app.use(express.static(path.join(__dirname, 'public')));
-
-//configures the session
-app.use(session({
-  secret: 'max',
-  saveUninitialized: true,
-  resave: false
-}));
 
 // function to calculate the balance per day
 hbs.registerHelper('calculateBalance', (context, options) => {
