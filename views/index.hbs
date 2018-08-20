@@ -54,11 +54,11 @@
 					<div id="reportDate" class="col-md-6 col-xs-12">
 						<div class="form-group">
 							<label for="username">Start Date:</label>
-							<input type="text" class="form-control datepicker" name="startDate" id="startDate" placeholder="dd/mm/yyyy" value="{{data.startDate}}" autocomplete="off">
+							<input type="text" class="form-control datepicker" name="startDate" id="startDate" value="{{data.startDate}}" autocomplete="off">
 						</div>
 						<div class="form-group">
 							<label for="username">End Date:</label>
-							<input type="text" class="form-control datepicker" name="endDate" id="endDate" placeholder="dd/mm/yyyy" value="{{data.endDate}}" autocomplete="off">
+							<input type="text" class="form-control datepicker" name="endDate" id="endDate" value="{{data.endDate}}" autocomplete="off">
 						</div>
 					</div> <!-- end report date -->
 					<div class="row col-xs-12">
@@ -106,10 +106,23 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>	
 	<script>
 		$(document).ready( function() {
+			//gets the current date
+			let date = new Date();
+			let startDate = $("#startDate").val();
+			let endDate = $("#endDate").val();
+
 			$(".datepicker").datepicker({
 				dateFormat: 'dd/mm/yy',
-				maxDate: 0 
+				maxDate: 0,
 			});
+			//sets the first day of the month if the field it does not have a previous value
+			if (!startDate) {
+				$( "#startDate").datepicker( "setDate", new Date(date.getFullYear(), date.getMonth(), 1));
+			}
+			//sets the current day of the month if the field it does not have a previous value
+			if (!endDate) {
+				$( "#endDate").datepicker( "setDate", date);
+			}
 		});
 	</script>
 	<!-- jQuery UI Script -->
