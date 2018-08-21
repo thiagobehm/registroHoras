@@ -88,7 +88,7 @@ app.post('/report', urlencodedParser, (req, resp) => {
 		json: true,
 	}, (err, res, body) => {
 	  // if result it's ok		
-	  if (res.statusCode == 200) {
+	  if (res.statusCode === 200) {
 	  	resp.render('index.hbs', {
 	  		results: body.results,
 	  		//fullfill the data in case the users wants to create another report and change only one parameter
@@ -98,7 +98,7 @@ app.post('/report', urlencodedParser, (req, resp) => {
 	        	endDate
 	        }
 	  	});
-	  } else if (res.statusCode == 401){ //401 = invalid credentials
+	  } else if (res.statusCode === 401){ //401 = invalid credentials
 		  	resp.render('index.hbs', {
 	        	error: "Invalid credentials! Please, confirm your user and password...",
 	        	// provides the data so the user it does not have to input everything again
