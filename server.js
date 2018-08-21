@@ -5,7 +5,7 @@ const path = require('path');
 const request = require('request');
 const base64 = require('base-64');
 const moment = require('moment');
-
+//const fixedDailyHours = moment.utc("08:00", "HH:mm");
 
 //configures a variable to heroku environment
 const port = process.env.PORT || 3000;
@@ -29,9 +29,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 hbs.registerHelper('calculateBalance', (context, options) => {
 	let bankHours = 0;
 	let start = moment.utc(context, "HH:mm");
-	let dailyHours = moment.utc("08:00", "HH:mm");
 	
-	bankHours = start.diff(dailyHours, 'minutes');
+	
+	bankHours = start.diff(fixedDailyHours, 'minutes');
 
 	//in case there is more than 60 mintutes converts to hours
 	if (bankHours >= 60 || bankHours <= -60) {
@@ -48,16 +48,16 @@ hbs.registerHelper('calculateBalance', (context, options) => {
 // Method to calculate the total time of the month
 hbs.registerHelper('calculateTotal', (context, options) => {
 	let totalHours = 0;
-	let start; 
-	let dailyHours = moment.utc("08:00", "HH:mm");
+	let workedHours; 
 	let dayOff = moment.utc("00:00", "HH:mm");
 
 	context.forEach((item) =>{
-		start = moment.utc(item.totalWorkedHours, "HH:mm"); //get the total of hours per day
+		workedHours = moment.utc(item.totalWorkedHours, "HH:mm"); //get the total of hours per day
 		
-		//avoid day off, vacation, medical leave
-		if (dayOff.diff(start, 'minutes') !== 0) {		
-			totalHours += start.diff(dailyHours, 'minutes'); // checks if the balance is positive or negative by decreasing 8h per day
+		//avoid day off, vacation, all day medical leave
+		if (dayOff.diff(workedHours, 'minutes') !== 0) {		
+			// checks if the balance is positive or negative by decreasing 8h per day
+			totalHours += workedHours.diff(fixedDailyHours, 'minutes'); 
 		}		
 	})
 
