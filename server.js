@@ -27,26 +27,27 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // function to calculate the balance per day
 hbs.registerHelper('calculateBalance', (context, options) => {
-	let bankHours = 0;
-	let start = moment.utc(context, "HH:mm");
+	let balance = 0;
+	let dailyWorkedHours = moment.utc(context, "HH:mm");
 	
 	
-	bankHours = start.diff(fixedDailyHours, 'minutes');
+	balance = dailyWorkedHours.diff(fixedDailyHours, 'minutes');
 
 	//in case there is more than 60 mintutes converts to hours
-	if (bankHours >= 60 || bankHours <= -60) {
+	if (balance >= 60 || balance <= -60) {
 		//format the number to two float point
-		bankHours = Number.parseFloat(bankHours / 60).toFixed(2) + ' h';
+		balance = Number.parseFloat(balance / 60).toFixed(2) + ' h';
 	} else {
-		bankHours = bankHours + 'm'; 
+		balance = balance + 'm'; 
 	}
 
-	return bankHours;
+	return balance;
 
 });
 
 // Method to calculate the total time of the month
 hbs.registerHelper('calculateTotal', (context, options) => {
+
 	let totalHours = 0;
 	let workedHours; 
 	let dayOff = moment.utc("00:00", "HH:mm");
