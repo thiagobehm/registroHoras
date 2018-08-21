@@ -5,6 +5,8 @@
 	<title>Registro de Horas</title>
 	<!-- Global site tag (gtag.js) - Google Analytics -->
 	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-123743250-1"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- Analystics script -->
 	<script>
 	  window.dataLayer = window.dataLayer || [];
 	  function gtag(){dataLayer.push(arguments);}
@@ -53,11 +55,11 @@
 					<!-- User provides information related to the date of the report -->
 					<div id="reportDate" class="col-md-6 col-xs-12">
 						<div class="form-group">
-							<label for="username">Start Date:</label>
+							<label for="startDate">Start Date:</label>
 							<input type="text" class="form-control datepicker" name="startDate" id="startDate" value="{{data.startDate}}" autocomplete="off">
 						</div>
 						<div class="form-group">
-							<label for="username">End Date:</label>
+							<label for="endDate">End Date:</label>
 							<input type="text" class="form-control datepicker" name="endDate" id="endDate" value="{{data.endDate}}" autocomplete="off">
 						</div>
 					</div> <!-- end report date -->
@@ -71,7 +73,7 @@
 			</article>
 		</section><!-- report conifg-->
 		{{# if results}}
-		<section id="shift-table">
+		<section id="shift-table" class="col-md-8 col-md-offset-2 col-xs-12">
 			<table class="table table-responsive table-hover">
 				<thead>
 					<th>Name:</th>
