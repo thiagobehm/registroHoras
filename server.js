@@ -5,7 +5,7 @@ const path = require('path');
 const request = require('request');
 const base64 = require('base-64');
 const moment = require('moment');
-//const fixedDailyHours = moment.utc("08:00", "HH:mm");
+const fixedDailyHours = moment.utc("08:00", "HH:mm");
 
 //configures a variable to heroku environment
 const port = process.env.PORT || 3000;
