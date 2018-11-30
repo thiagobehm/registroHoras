@@ -5,10 +5,15 @@ const path = require('path');
 const request = require('request');
 const base64 = require('base-64');
 const moment = require('moment');
+const momentDurationFormatSetup = require("moment-duration-format");
 const fixedDailyHours = moment.utc("08:00", "HH:mm");
 
 //configures a variable to heroku environment
 const port = process.env.PORT || 3000;
+
+momentDurationFormatSetup(moment);
+typeof moment.duration.fn.format === "function";
+typeof moment.duration.format === "function";
 
 //starts express
 let app = express();
@@ -36,7 +41,8 @@ hbs.registerHelper('calculateBalance', (context, options) => {
 	//in case there is more than 60 mintutes converts to hours
 	if (balance >= 60 || balance <= -60) {
 		//format the number to two float point
-		balance = Number.parseFloat(balance / 60).toFixed(2) + ' h';
+		//balance = Number.parseFloat(balance / 60).toFixed(2) + ' h';
+		balance = moment.duration(balance, 'minutes').format('hh:mm') + ' h';
 	} else {
 		balance = balance + 'm'; 
 	}
@@ -65,7 +71,9 @@ hbs.registerHelper('calculateTotal', (context, options) => {
 	//in case there is more than 60 mintutes converts to hours
 	if (totalHours >= 60 || totalHours <= -60) {
 		//format the number to two float point
-		totalHours = Number.parseFloat(totalHours / 60).toFixed(2) + ' h';
+		//totalHours = Number.parseFloat(totalHours / 60).toFixed(2) + ' h';
+		totalHours = moment.duration(totalHours, 'minutes').format('hh:mm') + ' h';
+
 	} else {
 		totalHours = totalHours + 'm'; 
 	}
